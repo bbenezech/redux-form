@@ -134,7 +134,7 @@ const createReducer = structure => {
     [BLUR](state, { meta: { field, touch }, payload }) {
       let result = state
       const initial = getIn(result, `initial.${field}`)
-      if (initial === undefined && payload === '') {
+      if (initial === undefined && (payload === '' || payload === false)) {
         result = deleteInWithCleanUp(result, `values.${field}`)
       } else if (payload !== undefined) {
         result = setIn(result, `values.${field}`, payload)
@@ -152,7 +152,7 @@ const createReducer = structure => {
     [CHANGE](state, { meta: { field, touch, persistentSubmitErrors }, payload }) {
       let result = state
       const initial = getIn(result, `initial.${field}`)
-      if (initial === undefined && payload === '') {
+      if (initial === undefined && (payload === '' || payload === false)) {
         result = deleteInWithCleanUp(result, `values.${field}`)
       } else if (payload !== undefined) {
         result = setIn(result, `values.${field}`, payload)
