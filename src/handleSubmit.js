@@ -9,11 +9,6 @@ const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
 
   touch(...fields) // mark all fields as touched
 
-  // XXX: Always submitting when persistentSubmitErrors is enabled ignores sync errors.
-  // It would be better to check whether the form as any other errors except submit errors.
-  // This would either require changing the meaning of `valid` (maybe breaking change),
-  // having a more complex conditional in here, or executing sync validation in here
-  // the same way as async validation is executed.
   if (valid || persistentSubmitErrors) {
     const doSubmit = () => {
       let result
@@ -23,7 +18,7 @@ const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
         const error = submitError instanceof SubmissionError ? submitError.errors : undefined
         setSubmitFailed(...fields)
         if (onSubmitFail) {
-          onSubmitFail(error, dispatch)
+          onSubmitFail(error, dispatch, submitError)
         }
         if (error || onSubmitFail) {
           // if you've provided an onSubmitFail callback, don't re-throw the error
@@ -47,7 +42,7 @@ const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
             stopSubmit(error)
             setSubmitFailed(...fields)
             if (onSubmitFail) {
-              onSubmitFail(error, dispatch)
+              onSubmitFail(error, dispatch, submitError)
             }
             if (error || onSubmitFail) {
               // if you've provided an onSubmitFail callback, don't re-throw the error
@@ -77,7 +72,7 @@ const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
         .catch(asyncErrors => {
           setSubmitFailed(...fields)
           if (onSubmitFail) {
-            onSubmitFail(asyncErrors, dispatch)
+            onSubmitFail(asyncErrors, dispatch, null)
           }
           return Promise.reject(asyncErrors)
         })
@@ -87,7 +82,7 @@ const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
   } else {
     setSubmitFailed(...fields)
     if (onSubmitFail) {
-      onSubmitFail(syncErrors, dispatch)
+      onSubmitFail(syncErrors, dispatch, null)
     }
     return syncErrors
   }

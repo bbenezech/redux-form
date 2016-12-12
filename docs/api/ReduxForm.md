@@ -33,7 +33,7 @@ or passed in as props to your component at runtime.**
 > field names for which `onBlur` should trigger a call to the `asyncValidate` function.
 Defaults to `[]`.
 
-> See [Asynchronous Blur Validation Example](https://redux-form.com/6.2.0/examples/asyncValidation/)
+> See [Asynchronous Blur Validation Example](https://redux-form.com/6.3.1/examples/asyncValidation/)
 for more details.
 
 #### `asyncValidate : (values:Object, dispatch:Function, props:Object, blurredField:String) => Promise<undefined, errors:Object>` [optional]
@@ -44,7 +44,7 @@ returns a Promise that will resolve if the validation is passed, or will reject 
 object of validation errors
 in the form `{ field1: <String>, field2: <String> }`.
 
-> See [Asynchronous Blur Validation Example](https://redux-form.com/6.2.0/examples/asyncValidation/)
+> See [Asynchronous Blur Validation Example](https://redux-form.com/6.3.1/examples/asyncValidation/)
 for more details.
 
 #### `destroyOnUnmount : boolean` [optional]
@@ -119,6 +119,10 @@ called with the following parameters:
 
 > The Redux `dispatch` function.
 
+##### `submitError : Error`
+
+> The error object that caused the submission to fail. If `errors` is set this will be most likely a `SubmissionError`, otherwise it can be any error or null.
+ 
 #### `onSubmitSuccess : Function` [optional]
 
 > A callback function that will be called when a submission succeeds.  It will be called with the
@@ -241,7 +245,7 @@ form has triggered it, respectively.
 If validation passes, it should return `{}`. If validation fails, it should return the validation errors in the
 form `{ field1: <String>, field2: <String> }`. Defaults to `(values, props) => ({})`.
 
-> See [Synchronous Validation Example](https://redux-form.com/6.2.0/examples/syncValidation/)
+> See [Synchronous Validation Example](https://redux-form.com/6.3.1/examples/syncValidation/)
 for more details.
 
 #### `warn : (values:Object, props:Object) => warnings:Object` [optional]
